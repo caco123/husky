@@ -7,8 +7,14 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:husky": "node dist/husky/server/server.mjs"
+    "serve:ssr:husky": "node dist/husky/server/server.mjs",
+    "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
+    "mock": "node mock-server.js",
+    "mock:server": "node mock-server.js",
+    "mock:json-server": "json-server db.json --port 3000"
   },
+  "type": "module",
   "private": true,
   "packageManager": "npm@11.12.1",
   "dependencies": {
@@ -20,7 +26,9 @@
     "@angular/platform-server": "^22.0.0",
     "@angular/router": "^22.0.0",
     "@angular/ssr": "^22.0.0",
+    "dummy-openapi": "^0.0.3",
     "express": "^5.1.0",
+    "json-server": "^1.0.0-beta.15",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -28,14 +36,20 @@
     "@angular/build": "^22.0.0",
     "@angular/cli": "^22.0.0",
     "@angular/compiler-cli": "^22.0.0",
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "@tailwindcss/postcss": "^4.1.12",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
+    "angular-eslint": "22.5.0",
+    "eslint": "^10.9.1",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
     "jsdom": "^28.0.0",
     "postcss": "^8.5.3",
     "prettier": "^3.8.1",
     "tailwindcss": "^4.1.12",
     "typescript": "~6.0.2",
+    "typescript-eslint": "8.69.0",
     "vitest": "^4.0.8"
   }
 }
