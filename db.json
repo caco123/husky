@@ -1,0 +1,82 @@
+{
+  "users": [
+    {
+      "id": "c7d89012-3456-4789-a012-3456789abcde",
+      "username": "alan.turing",
+      "email": "alan.turing@example.com",
+      "firstName": "Alan",
+      "lastName": "Turing",
+      "role": "admin",
+      "isActive": true,
+      "createdAt": "2026-02-01T09:15:00.000Z",
+      "updatedAt": "2026-02-01T09:15:00.000Z"
+    },
+    {
+      "id": "d8e90123-4567-4890-b123-456789abcdef",
+      "username": "grace.hopper",
+      "email": "grace.hopper@example.com",
+      "firstName": "Grace",
+      "lastName": "Hopper",
+      "role": "moderator",
+      "isActive": true,
+      "createdAt": "2026-02-14T11:45:00.000Z",
+      "updatedAt": "2026-02-14T11:45:00.000Z"
+    },
+    {
+      "id": "e9f01234-5678-4901-c234-56789abcdef0",
+      "username": "margaret.hamilton",
+      "email": "margaret.hamilton@example.com",
+      "firstName": "Margaret",
+      "lastName": "Hamilton",
+      "role": "moderator",
+      "isActive": true,
+      "createdAt": "2026-03-01T14:20:00.000Z",
+      "updatedAt": "2026-03-01T14:20:00.000Z"
+    },
+    {
+      "id": "fa012345-6789-4012-d345-6789abcdef01",
+      "username": "linus.torvalds",
+      "email": "linus.torvalds@example.com",
+      "firstName": "Linus",
+      "lastName": "Torvalds",
+      "role": "user",
+      "isActive": true,
+      "createdAt": "2026-03-10T16:00:00.000Z",
+      "updatedAt": "2026-03-10T16:00:00.000Z"
+    },
+    {
+      "id": "ab123456-789a-4123-e456-789abcdef012",
+      "username": "katherine.johnson",
+      "email": "katherine.johnson@example.com",
+      "firstName": "Katherine",
+      "lastName": "Johnson",
+      "role": "user",
+      "isActive": true,
+      "createdAt": "2026-03-15T10:10:00.000Z",
+      "updatedAt": "2026-03-15T10:10:00.000Z"
+    },
+    {
+      "id": "bc234567-89ab-4234-f567-89abcdef0123",
+      "username": "tim.bernerslee",
+      "email": "tim.bernerslee@example.com",
+      "firstName": "Tim",
+      "lastName": "Berners-Lee",
+      "role": "user",
+      "isActive": false,
+      "createdAt": "2026-03-20T17:40:00.000Z",
+      "updatedAt": "2026-03-20T17:40:00.000Z"
+    },
+    {
+      "id": "cd345678-9abc-4345-8678-9abcdef01234",
+      "username": "barbara.liskov",
+      "email": "barbara.liskov@example.com",
+      "firstName": "Barbara",
+      "lastName": "Liskov",
+      "role": "user",
+      "isActive": true,
+      "createdAt": "2026-04-01T12:00:00.000Z",
+      "updatedAt": "2026-04-01T12:00:00.000Z"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

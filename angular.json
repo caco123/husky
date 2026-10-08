@@ -66,7 +66,8 @@
               "buildTarget": "husky:build:production"
             },
             "development": {
-              "buildTarget": "husky:build:development"
+              "buildTarget": "husky:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

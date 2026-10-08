@@ -8,7 +8,10 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:husky": "node dist/husky/server/server.mjs",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "mock": "node mock-server.mjs",
+    "mock:server": "node mock-server.mjs",
+    "mock:json-server": "json-server db.json --port 3000"
   },
   "private": true,
   "packageManager": "npm@11.12.1",
