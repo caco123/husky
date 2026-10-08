@@ -134,7 +134,7 @@ openApiRouter.post('/users', async (req, res) => {
     updatedAt: now,
   };
 
-  db.data.users.push(newUser);
+  db.data.users.unshift(newUser);
   await db.write();
 
   res.status(201).json(newUser);

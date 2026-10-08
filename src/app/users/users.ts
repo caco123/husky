@@ -556,6 +556,8 @@ export class UsersComponent implements OnInit {
       next: () => {
         this.submitting.set(false);
         this.closeModal();
+        this.page.set(1);
+        this.searchQuery.set('');
         this.loadUsers();
       },
       error: (err) => {

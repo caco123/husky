@@ -1,17 +1,6 @@
 {
   "users": [
     {
-      "id": "c7d89012-3456-4789-a012-3456789abcde",
-      "username": "alan.turing",
-      "email": "alan.turing@example.com",
-      "firstName": "Alan",
-      "lastName": "Turing",
-      "role": "admin",
-      "isActive": true,
-      "createdAt": "2026-02-01T09:15:00.000Z",
-      "updatedAt": "2026-02-01T09:15:00.000Z"
-    },
-    {
       "id": "d8e90123-4567-4890-b123-456789abcdef",
       "username": "grace.hopper",
       "email": "grace.hopper@example.com",
@@ -76,6 +65,28 @@
       "isActive": true,
       "createdAt": "2026-04-01T12:00:00.000Z",
       "updatedAt": "2026-04-01T12:00:00.000Z"
+    },
+    {
+      "id": "69fafee0-e527-4239-af9b-e91aff09b2f4",
+      "username": "wgalvez",
+      "email": "willian@gmail.com",
+      "firstName": "Willian",
+      "lastName": "Galvez",
+      "role": "user",
+      "isActive": true,
+      "createdAt": "2026-10-08T08:14:34.218Z",
+      "updatedAt": "2026-10-08T08:14:34.218Z"
+    },
+    {
+      "id": "564aebae-d4ff-4ea6-8124-d413b7173f48",
+      "username": "ada",
+      "email": "ada@exmaple.com",
+      "firstName": "Ada",
+      "lastName": "Lovelace",
+      "role": "user",
+      "isActive": true,
+      "createdAt": "2026-10-08T08:16:14.228Z",
+      "updatedAt": "2026-10-08T08:16:14.228Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
