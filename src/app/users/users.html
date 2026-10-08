@@ -1,0 +1,185 @@
+<div class="users-container">
+    <header class="header">
+        <div>
+            <h2>Gestión de Usuarios (OpenAPI + json-server)</h2>
+            <p class="subtitle">Consumiendo <code>UsersService</code> de <strong>dummy-openapi</strong> contra
+                <strong>json-server</strong>
+            </p>
+        </div>
+        <button class="btn btn-primary" type="button" (click)="openCreateModal()">
+            + Nuevo Usuario
+        </button>
+    </header>
+
+    <!-- Barra de Filtros y Búsqueda -->
+    <div class="toolbar">
+        <div class="search-box">
+            <input id="user-search" type="text" placeholder="Buscar por nombre, usuario o email..."
+                [ngModel]="searchQuery()" (ngModelChange)="onSearchChange($event)" />
+        </div>
+
+        <div class="limit-selector">
+            <label for="limit-select">Por página:</label>
+            <select id="limit-select" [ngModel]="limit()" (ngModelChange)="onLimitChange($event)">
+                <option [value]="5">5</option>
+                <option [value]="10">10</option>
+                <option [value]="20">20</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Estado de Carga -->
+    @if (loading()) {
+    <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando usuarios desde json-server...</p>
+    </div>
+    }
+
+    <!-- Mensaje de Error -->
+    @if (error()) {
+    <div class="error-banner">
+        <span>⚠️ {{ error() }}</span>
+        <button class="btn btn-sm btn-secondary" type="button" (click)="loadUsers()">Reintentar</button>
+    </div>
+    }
+
+    <!-- Tabla de Usuarios -->
+    @if (!loading() && users().length > 0) {
+    <div class="table-card">
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Rol</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Fecha Creación</th>
+                    <th scope="col" class="actions-header">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (user of users(); track user.id) {
+                <tr>
+                    <td class="username-cell">
+                        <strong>&#64;{{ user.username }}</strong>
+                    </td>
+                    <td>{{ user.firstName }} {{ user.lastName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <span class="badge badge-role" [attr.data-role]="user.role">
+                            {{ user.role }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge" [class.badge-active]="user.isActive"
+                            [class.badge-inactive]="!user.isActive">
+                            {{ user.isActive ? 'Activo' : 'Inactivo' }}
+                        </span>
+                    </td>
+                    <td class="date-cell">{{ user.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+                    <td class="actions-cell">
+                        <button type="button" class="btn btn-danger btn-sm" title="Eliminar usuario"
+                            [disabled]="deletingId() === user.id" (click)="deleteUser(user.id)">
+                            @if (deletingId() === user.id) {
+                            ...
+                            } @else {
+                            Eliminar
+                            }
+                        </button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginación -->
+    <div class="pagination">
+        <span class="pagination-info">
+            Página {{ page() }} de {{ totalPages() }} (Total: {{ totalItems() }} usuarios)
+        </span>
+        <div class="pagination-buttons">
+            <button type="button" class="btn btn-secondary btn-sm" [disabled]="page() <= 1"
+                (click)="changePage(page() - 1)">
+                &laquo; Anterior
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" [disabled]="page() >= totalPages()"
+                (click)="changePage(page() + 1)">
+                Siguiente &raquo;
+            </button>
+        </div>
+    </div>
+    }
+
+    <!-- Sin resultados -->
+    @if (!loading() && users().length === 0 && !error()) {
+    <div class="empty-state">
+        <p>No se encontraron usuarios coincidentes.</p>
+    </div>
+    }
+
+    <!-- Modal de Creación -->
+    @if (showModal()) {
+    <div class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1"
+        (keydown.escape)="closeModal()">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="modal-title">Crear Nuevo Usuario</h3>
+                <button type="button" class="close-btn" (click)="closeModal()" aria-label="Cerrar">&times;</button>
+            </div>
+            <p class="modal-subtitle">Invoca <code>usersService.usersPost()</code></p>
+
+            <form (ngSubmit)="submitCreate()">
+                <div class="form-group">
+                    <label for="form-username">Nombre de usuario (*):</label>
+                    <input id="form-username" type="text" [(ngModel)]="formUsername" name="username" required
+                        placeholder="ej. ada.lovelace" />
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="form-firstname">Nombre (*):</label>
+                        <input id="form-firstname" type="text" [(ngModel)]="formFirstName" name="firstName" required
+                            placeholder="Ada" />
+                    </div>
+                    <div class="form-group">
+                        <label for="form-lastname">Apellido (*):</label>
+                        <input id="form-lastname" type="text" [(ngModel)]="formLastName" name="lastName" required
+                            placeholder="Lovelace" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="form-email">Email (*):</label>
+                    <input id="form-email" type="email" [(ngModel)]="formEmail" name="email" required
+                        placeholder="ada&#64;example.com" />
+                </div>
+
+                <div class="form-group">
+                    <label for="form-password">Contraseña (*):</label>
+                    <input id="form-password" type="password" [(ngModel)]="formPassword" name="password" required
+                        placeholder="Mínimo 8 caracteres" />
+                </div>
+
+                <div class="form-group">
+                    <label for="form-role">Rol:</label>
+                    <select id="form-role" [(ngModel)]="formRole" name="role">
+                        <option [value]="UserRole.user">Usuario (user)</option>
+                        <option [value]="UserRole.moderator">Moderador (moderator)</option>
+                        <option [value]="UserRole.admin">Administrador (admin)</option>
+                    </select>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="submitting()">
+                        {{ submitting() ? 'Creando...' : 'Guardar Usuario' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    }
+</div>
