@@ -1,10 +1,8 @@
-import { Component, inject, signal, OnInit, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-
-import { UsersService, User, UserRole, CreateUserRequest } from 'dummy-openapi';
-
+import { CreateUserRequest, User, UserRole, UsersService } from 'dummy-openapi';
 @Component({
   selector: 'app-users',
   standalone: true,

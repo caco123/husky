@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { UsersService, UserListResponse, UserRole } from 'dummy-openapi';
+
+import { UserListResponse, UserRole,UsersService } from 'dummy-openapi';
+
 import { UsersComponent } from './users';
 
 describe('UsersComponent', () => {
