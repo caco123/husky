@@ -2,7 +2,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { CreateUserRequest, User, UserRole, UsersService } from 'dummy-openapi';
+import { CreateUserRequest, UpdateUserRequest, User, UserRole, UsersService } from 'dummy-openapi';
 @Component({
   selector: 'app-users',
   standalone: true,
@@ -31,12 +31,16 @@ export class UsersComponent implements OnInit {
 
   // Modal
   readonly showModal = signal<boolean>(false);
+  readonly modalMode = signal<'create' | 'edit'>('create');
+  readonly editingUserId = signal<string | null>(null);
+
   formUsername = '';
   formFirstName = '';
   formLastName = '';
   formEmail = '';
   formPassword = '';
   formRole: UserRole = UserRole.user;
+  formIsActive = true;
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -108,17 +112,77 @@ export class UsersComponent implements OnInit {
   }
 
   openCreateModal(): void {
+    this.modalMode.set('create');
+    this.editingUserId.set(null);
     this.formUsername = '';
     this.formFirstName = '';
     this.formLastName = '';
     this.formEmail = '';
     this.formPassword = '';
     this.formRole = UserRole.user;
+    this.formIsActive = true;
+    this.showModal.set(true);
+  }
+
+  openEditModal(user: User): void {
+    this.modalMode.set('edit');
+    this.editingUserId.set(user.id);
+    this.formUsername = user.username;
+    this.formFirstName = user.firstName;
+    this.formLastName = user.lastName;
+    this.formEmail = user.email;
+    this.formPassword = '';
+    this.formRole = user.role;
+    this.formIsActive = user.isActive;
     this.showModal.set(true);
   }
 
   closeModal(): void {
     this.showModal.set(false);
+    this.editingUserId.set(null);
+  }
+
+  submitForm(): void {
+    if (this.modalMode() === 'edit') {
+      this.submitEdit();
+    } else {
+      this.submitCreate();
+    }
+  }
+
+  submitEdit(): void {
+    const userId = this.editingUserId();
+    if (!userId) {
+      return;
+    }
+
+    if (!this.formEmail || !this.formFirstName || !this.formLastName) {
+      alert('Por favor completa todos los campos requeridos');
+      return;
+    }
+
+    this.submitting.set(true);
+    const request: UpdateUserRequest = {
+      firstName: this.formFirstName,
+      lastName: this.formLastName,
+      email: this.formEmail,
+      role: this.formRole,
+      isActive: this.formIsActive,
+    };
+
+    this.usersService.usersUserIdPut(userId, request).subscribe({
+      next: () => {
+        this.submitting.set(false);
+        this.closeModal();
+        this.loadUsers();
+      },
+      error: (err) => {
+        console.error('Error al actualizar usuario:', err);
+        const msg = err.error?.error || 'Error al actualizar usuario en json-server';
+        alert(msg);
+        this.submitting.set(false);
+      },
+    });
   }
 
   submitCreate(): void {

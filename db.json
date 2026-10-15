@@ -3,13 +3,13 @@
     {
       "id": "d8e90123-4567-4890-b123-456789abcdef",
       "username": "grace.hopper",
-      "email": "grace.hopper@example.com",
+      "email": "grace@example.com",
       "firstName": "Grace",
       "lastName": "Hopper",
-      "role": "moderator",
-      "isActive": true,
+      "role": "user",
+      "isActive": false,
       "createdAt": "2026-02-14T11:45:00.000Z",
-      "updatedAt": "2026-02-14T11:45:00.000Z"
+      "updatedAt": "2026-10-15T13:30:15.334Z"
     },
     {
       "id": "e9f01234-5678-4901-c234-56789abcdef0",

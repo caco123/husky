@@ -80,14 +80,20 @@
                     </td>
                     <td class="date-cell">{{ user.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
                     <td class="actions-cell">
-                        <button type="button" class="btn btn-danger btn-sm" title="Eliminar usuario"
-                            [disabled]="deletingId() === user.id" (click)="deleteUser(user.id)">
-                            @if (deletingId() === user.id) {
-                            ...
-                            } @else {
-                            Eliminar
-                            }
-                        </button>
+                        <div class="actions-group">
+                            <button type="button" class="btn btn-secondary btn-sm" title="Editar usuario"
+                                (click)="openEditModal(user)">
+                                Editar
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" title="Eliminar usuario"
+                                [disabled]="deletingId() === user.id" (click)="deleteUser(user.id)">
+                                @if (deletingId() === user.id) {
+                                ...
+                                } @else {
+                                Eliminar
+                                }
+                            </button>
+                        </div>
                     </td>
                 </tr>
                 }
@@ -120,22 +126,29 @@
     </div>
     }
 
-    <!-- Modal de Creación -->
+    <!-- Modal de Creación / Edición -->
     @if (showModal()) {
     <div class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1"
         (keydown.escape)="closeModal()">
         <div class="modal-card">
             <div class="modal-header">
-                <h3 id="modal-title">Crear Nuevo Usuario</h3>
+                <h3 id="modal-title">{{ modalMode() === 'edit' ? 'Editar Usuario' : 'Crear Nuevo Usuario' }}</h3>
                 <button type="button" class="close-btn" (click)="closeModal()" aria-label="Cerrar">&times;</button>
             </div>
-            <p class="modal-subtitle">Invoca <code>usersService.usersPost()</code></p>
+            <p class="modal-subtitle">
+                Invoca <code>{{ modalMode() === 'edit' ? 'usersService.usersUserIdPut()' : 'usersService.usersPost()' }}</code>
+            </p>
 
-            <form (ngSubmit)="submitCreate()">
+            <form (ngSubmit)="submitForm()">
                 <div class="form-group">
-                    <label for="form-username">Nombre de usuario (*):</label>
-                    <input id="form-username" type="text" [(ngModel)]="formUsername" name="username" required
+                    <label for="form-username">Nombre de usuario{{ modalMode() === 'create' ? ' (*)' : '' }}:</label>
+                    <input id="form-username" type="text" [(ngModel)]="formUsername" name="username"
+                        [disabled]="modalMode() === 'edit'"
+                        [required]="modalMode() === 'create'"
                         placeholder="ej. ada.lovelace" />
+                    @if (modalMode() === 'edit') {
+                    <span class="field-hint">El nombre de usuario no se puede modificar.</span>
+                    }
                 </div>
 
                 <div class="form-row">
@@ -157,11 +170,13 @@
                         placeholder="ada&#64;example.com" />
                 </div>
 
+                @if (modalMode() === 'create') {
                 <div class="form-group">
                     <label for="form-password">Contraseña (*):</label>
                     <input id="form-password" type="password" [(ngModel)]="formPassword" name="password" required
                         placeholder="Mínimo 8 caracteres" />
                 </div>
+                }
 
                 <div class="form-group">
                     <label for="form-role">Rol:</label>
@@ -172,10 +187,23 @@
                     </select>
                 </div>
 
+                @if (modalMode() === 'edit') {
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label" for="form-active">
+                        <input id="form-active" type="checkbox" [(ngModel)]="formIsActive" name="isActive" />
+                        <span>Usuario Activo</span>
+                    </label>
+                </div>
+                }
+
                 <div class="modal-actions">
                     <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
                     <button type="submit" class="btn btn-primary" [disabled]="submitting()">
-                        {{ submitting() ? 'Creando...' : 'Guardar Usuario' }}
+                        @if (submitting()) {
+                            {{ modalMode() === 'edit' ? 'Guardando...' : 'Creando...' }}
+                        } @else {
+                            {{ modalMode() === 'edit' ? 'Guardar Cambios' : 'Guardar Usuario' }}
+                        }
                     </button>
                 </div>
             </form>
